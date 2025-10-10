@@ -150,17 +150,41 @@ void visuals() {
 }
 
 void games(){
+    int input;
 
-    std::string line;
+
+    type_chars("Alright, here are some of the games that you can play\n");
+    type_chars("A sidenote, these games are not mine, you can find their original creators if you look at the readme of each game's folder. :D\n\n");
+
+    std::cout << "1. Pong\n2. Tetris\n\n";
+    std::cin >> input;
+
+    int loading_timer = 2 + rand() % 6;
+    
     
     pid_t pid = fork();
     if (pid == -1) {
         std::perror("fork");
         return;
     } else if (pid == 0) {
-        std::cout << "Child: launching terminal-pong...\n";
-        // If launcher and pong are in the same directory at runtime:
-        execlp("terminal-pong/build/pong", "pong", (char*)NULL);
+         switch (input) {
+                case 1:
+                    loading("PONG", loading_timer); 
+                    execlp("terminal-pong/build/pong", "pong", (char*)NULL);
+                    break;
+                case 2:
+                    loading("TETRIS", loading_timer); 
+                    execlp("terminal-tetris/tetris", "tetris", (char*)NULL);
+                    break;
+                // case 3:
+                //     loading("", loading_timer); 
+                //     execlp("", "", (char*)NULL);
+                //     break;
+                default:
+                    std::cerr << "Invalid choice.\n";
+                    _exit(1);
+            }
+
 
         // If execlp returns, it failed:
         std::perror("exec pong");
@@ -173,7 +197,24 @@ void games(){
 
 }
 
+void intro(){
+	char answer;
+
+    type_chars("I am not the best when it comes to story telling, so I want to do something different\n"); sleep(1);
+    type_chars("I've been learning how to use 'fork()' | 'exec()' | 'wait()'\n"); sleep(1);
+    type_chars("I wanted to put these skills to the test here\n"); sleep(1);
+    type_chars("So here is what we are going to do. I am going to give you some cool things to work with :D\n"); sleep(1);
+    
+    std::cout << "\nWould you like to know what I mean when refering to 'fork()' | 'exec()' | 'wait()' [Y/n]: ";
+    std::cin >> answer; std::cout << '\n';
+    
+    if(answer == 'Y'){ std::cout << "Well bascially..."; }
+    else{ type_chars("\tYea I was guessing that you wouldn't be interested but that's alright :(\n\n");}
+
+}
+
 void manager(){
+    intro();
 
 }
 
@@ -181,16 +222,6 @@ int main() {
     // visuals();
 	char answer;
 
-    // type_chars("I am not the best when it comes to story telling, so I want to do something different\n"); sleep(1);
-    // type_chars("I've been learning how to use 'fork()' | 'exec()' | 'wait()'\n"); sleep(1);
-    // type_chars("I wanted to put these skills to the test here\n"); sleep(1);
-    // type_chars("So here is what we are going to do. I am going to give you some cool things to work with :D\n"); sleep(1);
-
-    // std::cout << "\nWould you like to know what I mean when refering to 'fork()' | 'exec()' | 'wait()' [Y/n]: ";
-    // std::cin >> answer; std::cout << '\n';
-
-	// if(answer == 'Y'){ std::cout << "Well bascially..."; }
-    // else{ type_chars("\tYea I was guessing that you wouldn't be interested but that's alright :(\n\n");}
     
     
     while(true){
