@@ -7,19 +7,36 @@
 #include <thread>
 #include <sstream>
 
-void type_chars(const std::string& text,
-                std::chrono::milliseconds per_char = std::chrono::milliseconds(40),
-                bool newline_at_end = true) {
+
+void type_chars(const std::string& text, std::chrono::milliseconds per_char = std::chrono::milliseconds(40), bool newline_at_end = true) {
     for (char c : text) {
         std::cout << c << std::flush;
         using namespace std::chrono_literals;
-        if (c == ' ' || c == '\n') std::this_thread::sleep_for(per_char / 2);
+        if (c == ' ' || c == '\n') std::this_thread::sleep_for(per_char / 3);
         else if (c == '.' || c == '!' || c == '?' || c == ',') std::this_thread::sleep_for(per_char * 6);
         else std::this_thread::sleep_for(per_char);
     }
     if (newline_at_end) std::cout << '\n';
 }
 
+void sad_Goodbye(){
+    std::cout << '\n';
+    
+    const int maxDots = 3;
+    int d = 1; 
+    int x = 3;
+    while (x!=0) {
+        std::cout << "\rOh" << std::string(d, '.') << std::string(maxDots - d, ' ')  << std::flush;
+        sleep(1);
+        d = (d + 1) % (maxDots + 1); 
+        x--;
+    } sleep(1);
+
+    type_chars("okay then\n"); sleep(1);
+    type_chars("goodbye :( \n"); sleep(1);
+    
+    exit(1); 
+}
 
 void loading(const std::string& msg, int time) {
     const int maxDots = 3;
@@ -27,10 +44,10 @@ void loading(const std::string& msg, int time) {
     int x  = time;
     while (x!=0) {
         std::cout << "\rDISPLAYING " << msg
-                  << std::string(d, '.')
-                  << std::string(maxDots - d, ' ')   // overwrite old dots
-                  << std::flush;
-
+        << std::string(d, '.')
+        << std::string(maxDots - d, ' ')   // overwrite old dots
+        << std::flush;
+        
         sleep(1);
         d = (d + 1) % (maxDots + 1); // cycles: 1→2→3→0→1→...
         x--;
@@ -42,11 +59,11 @@ void visuals() {
     std::cout << "\n\nGREAT! Here are some choices that you can see (INPUT 0 FOR MORE INFORMATION)\n\n";
 
     while(true){
+        int process_timer = 8;
 
         std::cout << "1. CMATRIX\n2. AQUARIUM\n3. STEAM LOCOMOTIVE\n\n";
         std::cin >> input;
-        int loading_timer = 2 + rand() % 7;
-        
+
         if(input == 0){
             std::cout << "1. Gives a 'Matrix'-style display, where a rain of green characters streams down the screen\n";
             std::cout << "2. It is an aquarium/sea animation in ASCII art created using perl\n";
@@ -56,6 +73,14 @@ void visuals() {
         
         // Decide timing *before* fork so the parent sees it.
         bool timed = (input == 1 || input == 2);
+
+        if(timed){
+            std::cout << "How long would you like to display #" << input << " for in seconds? (defualt = 8s): ";
+            std::cin >> process_timer;
+        }
+        
+        int loading_timer = 2 + rand() % 7;
+        
         
         pid_t pid = fork();
 
@@ -66,15 +91,15 @@ void visuals() {
         } else if (pid == 0) {
             switch (input) {
                 case 1:
-                    loading("CMATRIX", loading_timer);
+                    loading("CMATRIX", loading_timer); 
                     execlp("cmatrix", "cmatrix", (char*)NULL);
                     break;
                 case 2:
-                    loading("AQUARIUM", loading_timer);
+                    loading("AQUARIUM", loading_timer); 
                     execlp("asciiquarium", "asciiquarium", (char*)NULL);
                     break;
                 case 3:
-                    loading("STEAM LOCOMOTIVE", loading_timer);
+                    loading("STEAM LOCOMOTIVE", loading_timer); 
                     execlp("sl", "sl", (char*)NULL);
                     break;
                 default:
@@ -90,7 +115,7 @@ void visuals() {
             int status = 0;
 
             if (timed) {
-                sleep((loading_timer+6));
+                sleep((loading_timer + process_timer));
                  if (kill(pid, SIGTERM) == -1) {
                     std::perror("kill(SIGTERM)");
                 }
@@ -108,9 +133,9 @@ void visuals() {
                 }
             }
             
-         
+            wait(NULL);
             char answer;
-            std::cout << "Would you like to look at the other than visuals? [Y/n]:";
+            std::cout << "\n\nWould you like to look at the other than visuals? [Y/n]:";
             std::cin >> answer;
 
             if(answer == 'Y'){ 
@@ -124,11 +149,36 @@ void visuals() {
     }
 }
 
+void games(){
+
+    std::string line;
+    
+    pid_t pid = fork();
+    if (pid == -1) {
+        std::perror("fork");
+        return;
+    } else if (pid == 0) {
+        std::cout << "Child: launching terminal-pong...\n";
+        // If launcher and pong are in the same directory at runtime:
+        execlp("terminal-pong/build/pong", "pong", (char*)NULL);
+
+        // If execlp returns, it failed:
+        std::perror("exec pong");
+        _exit(1);
+    } else {
+        int status;
+        waitpid(pid, &status, 0);
+        std::cout << "Parent: child exited (status " << status << ")\n";
+    }
+
+}
+
 void manager(){
 
 }
 
 int main() {
+    // visuals();
 	char answer;
 
     // type_chars("I am not the best when it comes to story telling, so I want to do something different\n"); sleep(1);
@@ -153,24 +203,7 @@ int main() {
             if(answer == 'Y' || answer == 'n'){break;}
         }
         
-        if(answer == 'n'){ 
-            std::cout << '\n';
-            
-            const int maxDots = 3;
-            int d = 1; 
-            int x = 3;
-            while (x!=0) {
-                std::cout << "\rOh" << std::string(d, '.') << std::string(maxDots - d, ' ')  << std::flush;
-                sleep(1);
-                d = (d + 1) % (maxDots + 1); 
-                x--;
-            } sleep(1);
-
-            type_chars("okay then\n"); sleep(1);
-            type_chars("goodbye :( \n"); sleep(1);
-            
-            exit(1); 
-        }
+        if(answer == 'n'){ sad_Goodbye(); }
 
         int input;
         type_chars("Great, here are the following options you can explore :D\n ");
@@ -181,13 +214,14 @@ int main() {
                 case 1: 
                     visuals();
                     break;
-                // case 2:
-                //     games();
-                //     break;
+                case 2:
+                    games();
+                    break;
                 // case 3:
                 //     ciphers()
                 //     break;
             }
+
             while(true){
                 std::cout << "Would you like to look at other options? [Y/n]:";
                 std::cin >> answer;
@@ -200,28 +234,10 @@ int main() {
     }
 
     exit_point:
-    std::cout << "Here is the exit point\n";
+    std::cout << "alright good bye, THANKS\n";
 
     
-	// std::string line;
-    
-    // pid_t pid = fork();
-    // if (pid == -1) {
-    //     std::perror("fork");
-    //     return 1;
-    // } else if (pid == 0) {
-    //     std::cout << "Child: launching terminal-pong...\n";
-    //     // If launcher and pong are in the same directory at runtime:
-    //     execlp("/home/nemismagana/code/random/terminal-pong/build/pong", "pong", (char*)NULL);
 
-    //     // If execlp returns, it failed:
-    //     std::perror("exec pong");
-    //     _exit(1);
-    // } else {
-    //     int status;
-    //     waitpid(pid, &status, 0);
-    //     std::cout << "Parent: child exited (status " << status << ")\n";
-    // }
 
     return 0;
 }
