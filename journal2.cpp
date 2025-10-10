@@ -170,11 +170,11 @@ void games(){
          switch (input) {
                 case 1:
                     loading("PONG", loading_timer); 
-                    execlp("terminal-pong/build/pong", "pong", (char*)NULL);
+                    execlp("pong/build/pong", "pong", (char*)NULL);
                     break;
                 case 2:
                     loading("TETRIS", loading_timer); 
-                    execlp("terminal-tetris/tetris", "tetris", (char*)NULL);
+                    execlp("tetris/tetris", "tetris", (char*)NULL);
                     break;
                 // case 3:
                 //     loading("", loading_timer); 
