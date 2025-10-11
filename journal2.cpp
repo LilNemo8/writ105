@@ -62,8 +62,8 @@ void visuals() {
         int process_timer = 8;
 
         std::cout << "Enter -1 to go back to main menu\n\n";
-        std::cout << "1. CMATRIX\n2. AQUARIUM\n3. HOLLYWOOD LOCOMOTIVE\n4. STEAM LOCOMOTIVE\n\n";
-        std::cin >> input;
+        std::cout << "1. CMATRIX\n2. AQUARIUM\n3. HOLLYWOOD\n4. STEAM LOCOMOTIVE\n\n";
+        std::cout << "Input: "; std::cin >> input;
 
         if(input == -1){
             std::cout << "Leaving Visuals\n\n";
@@ -72,8 +72,8 @@ void visuals() {
             std::cout << "1. Gives a 'Matrix'-style display, where a rain of green characters streams down the screen\n";
             std::cout << "2. It is an aquarium/sea animation in ASCII art created using perl\n";
             std::cout << "3. Creates a visually engaging, hacker-movie-like terminal interface with multiple windows and animated text\n";
-            std::cout << "4. shows you an animated steam train\n"; 
-            std::cin >> input;
+            std::cout << "4. shows you an animated steam train\n\n"; 
+            std::cout << "Input: "; std::cin >> input;
         }
         
         // Decide timing *before* fork so the parent sees it.
@@ -104,20 +104,20 @@ void visuals() {
                     execlp("asciiquarium", "asciiquarium", (char*)NULL);
                     break;
                 case 3:
+                    loading("HOLLYWOOD", loading_timer); 
+                    execlp("hollywood", "hollywood", (char*)NULL);
+                    break;
+                case 4:
                     loading("STEAM LOCOMOTIVE", loading_timer); 
                     execlp("sl", "sl", (char*)NULL);
                     break;
-                case 4:
-                loading("HOLLYWOOD", loading_timer); 
-                execlp("hollywood", "hollywood", (char*)NULL);
-                break;
                 default:
                     std::cerr << "Invalid choice.\n";
                     _exit(1);
             }
             // If we got here, exec failed.
-            std::perror("exec failed");
-            _exit(127);
+            std::perror("exec error");
+            _exit(1);
 
         } else {
             // --- Parent: optionally time-limit the child ---
@@ -144,9 +144,11 @@ void visuals() {
             
             wait(NULL);
             char answer;
-            std::cout << "\n\nWould you like to look at the other than visuals? [Y/n]:";
-            std::cin >> answer;
-            std::cout << '\n';
+            while(true){
+                std::cout << "Would you like to look at the other than visuals? [Y/n]:";
+                std::cin >> answer;
+                if(answer == 'Y' || answer == 'n'){break;}
+            }
 
             if(answer == 'Y'){ 
                 std::cout<< "\nAlright lets look at some more visuals :D \n\n";
@@ -163,7 +165,7 @@ void games(){
     int input;
 
 
-    type_chars("Alright, here are some of the games that you can play\n");
+    type_chars("Alright, here are some of the games that you can play\n\n");
     type_chars("A sidenote, these games are not mine, you can find their original creators if you look at the readme of each game's folder. :D\n\n");
 
     while(true){
@@ -171,7 +173,7 @@ void games(){
         std::cout << "Enter -1 to go back to main menu\n\n";
 
         std::cout << "1. Pong\n2. Tetris\n3. Snake\n\n";
-        std::cin >> input;
+        std::cout << "Input: "; std::cin >> input;
 
 
         if(input == -1){ std::cout << "Leaving Games\n\n"; return;}
@@ -187,15 +189,15 @@ void games(){
             switch (input) {
                     case 1:
                         loading("PONG", loading_timer); 
-                        execlp("pong/build/pong", "pong", (char*)NULL);
+                        execlp("games/pong/build/pong", "pong", (char*)NULL);
                         break;
                     case 2:
                         loading("TETRIS", loading_timer); 
-                        execlp("tetris/tetris", "tetris", (char*)NULL);
+                        execlp("games/tetris/tetris", "tetris", (char*)NULL);
                         break;
                     case 3:
                     loading("SNAKE", loading_timer); 
-                    execlp("snake/sgt", "sgt", (char*)NULL);
+                    execlp("games/snake/sgt", "sgt", (char*)NULL);
                     break;
                     // case 3:
                     //     loading("", loading_timer); 
@@ -208,19 +210,87 @@ void games(){
 
 
             // If execlp returns, it failed:
-            std::perror("exec pong");
+            std::perror("exec error");
             _exit(1);
         } else {
 
             
             wait(NULL);
             char answer;
-            std::cout << "\n\nWould you like to look at the other than games? [Y/n]:";
-            std::cin >> answer;
-            std::cout << '\n';
+            while(true){
+                std::cout << "Would you like to look at the other than games? [Y/n]:";
+                std::cin >> answer;
+                if(answer == 'Y' || answer == 'n'){break;}
+            }
             
             if(answer == 'Y'){ 
                 std::cout<< "\nAlright lets look at some more games :D \n\n";
+                continue; 
+            }else{
+                break; 
+            }
+
+        }
+    }
+
+}
+
+void ciphers(){
+    int input;
+
+
+    type_chars("Alright, here are some of ciphers that you can play\n\n");
+
+
+    while(true){
+
+        std::cout << "Enter -1 to go back to main menu\n\n";
+
+        std::cout << "1. CAESAR\n2. SCYTALE\n\n";
+        std::cout << "Input: "; std::cin >> input;
+
+
+        if(input == -1){ std::cout << "Leaving CIPHERS\n\n"; return;}
+
+        int loading_timer = 2 + rand() % 5;
+        
+    
+        pid_t pid = fork();
+        if (pid == -1) {
+            std::perror("fork");
+            return;
+        } else if (pid == 0) {
+            switch (input) {
+                    case 1:
+                        loading("CAESAR", loading_timer); 
+                        execlp("ciphers/caesar", "caesar", (char*)NULL);
+                        break;
+                    case 2:
+                        loading("SCYTALE", loading_timer); 
+                        execlp("ciphers/syctale", "syctale", (char*)NULL);
+                        break;
+                    default:
+                        std::cerr << "Invalid choice.\n";
+                        break;
+                }
+
+
+            // If execlp returns, it failed:
+            // std::perror("exec error");
+            _exit(1);
+        } else {
+
+            
+            wait(NULL);
+            char answer;
+            while(true){
+                std::cout << "Would you like to look at the other than Ciphers? [Y/n]:";
+                std::cin >> answer;
+                if(answer == 'Y' || answer == 'n'){break;}
+            }
+            
+            if(answer == 'Y'){ 
+                std::cout<< "\nAlright let's look at some more Ciphers :D \n\n";
                 continue; 
             }else{
                 break; 
@@ -249,9 +319,12 @@ void intro(){
 
 
 void manager(){
-    // intro();
-    
     char answer;
+    std::cout << "Y = yes\nn = No\n";
+    std::cout << "Skip Intro [Y/n]:"; std::cin >> answer;
+
+    if(answer =='n'){ intro(); }
+    
     
     while(true){
     
@@ -272,8 +345,8 @@ void manager(){
         type_chars("Great, here are the following options you can explore :D\n ");
     
         while(true){
-            std::cout << "1. Visuals\n2. Games\n3. Ciphers\n4.Random\n\nInput:";
-            std::cin >> input;
+            std::cout << "1. Visuals\n2. Games\n3. Ciphers\n\n";
+            std::cout << "Input: "; std::cin >> input;
             switch(input){
                 case 1: 
                     visuals();
@@ -281,14 +354,13 @@ void manager(){
                 case 2:
                     games();
                     break;
-                // case 3:
-                //     ciphers()
-                //     break;
+                case 3:
+                    ciphers();
+                    break;
             }
     
             while(true){
-                std::cout << "Would you like to look at other options? [Y/n]:";
-                std::cin >> answer;
+                std::cout << "Would you like to look at main options again? [Y/n]:"; std::cin >> answer;
                 std::cout << '\n';
     
                 if(answer == 'Y'){ break; }
@@ -300,7 +372,7 @@ void manager(){
     }
     
     exit_point:
-    std::cout << "alright good bye, THANKS\n";
+    std::cout << "Alright. Thanks for using my program :D\n";
 
     
 }    
