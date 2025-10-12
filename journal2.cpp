@@ -1,5 +1,5 @@
 #include <iostream>
-#include <unistd.h>     // fork(), execlp(), sleep()
+#include <unistd.h>     // fork(), exec(), sleep()
 #include <sys/wait.h>   // waitpid()
 #include <signal.h>     // kill(), SIGTERM
 #include <string>
@@ -7,7 +7,7 @@
 #include <thread>
 #include <sstream>
 
-
+// Gives the illusion of typing each character
 void type_chars(const std::string& text, std::chrono::milliseconds per_char = std::chrono::milliseconds(40), bool newline_at_end = true) {
     for (char c : text) {
         std::cout << c << std::flush;
@@ -19,6 +19,7 @@ void type_chars(const std::string& text, std::chrono::milliseconds per_char = st
     if (newline_at_end) std::cout << '\n';
 }
 
+// Just a little touch
 void sad_Goodbye(){
     std::cout << '\n';
     
@@ -38,6 +39,7 @@ void sad_Goodbye(){
     exit(1); 
 }
 
+// This is the 'loading' that happens when choosing a specific application (CHAT WROTE THIS)
 void loading(const std::string& msg, int time) {
     const int maxDots = 3;
     int d = 1; // show 1,2,3 dots, then reset to none (0), repeat
@@ -54,6 +56,7 @@ void loading(const std::string& msg, int time) {
     }
 }
 
+// COOL visuals or some
 void visuals() {
     int input;
     std::cout << "\n\nGREAT! Here are some choices that you can see (INPUT 0 FOR MORE INFORMATION)\n\n";
@@ -85,7 +88,6 @@ void visuals() {
         }
         
         int loading_timer = 2 + rand() % 7;
-        
         
         pid_t pid = fork();
 
@@ -125,7 +127,7 @@ void visuals() {
 
             if (timed) {
                 sleep((loading_timer + process_timer));
-                 if (kill(pid, SIGTERM) == -1) {
+                if (kill(pid, SIGTERM) == -1) {
                     std::perror("kill(SIGTERM)");
                 }
 
@@ -145,13 +147,13 @@ void visuals() {
             wait(NULL);
             char answer;
             while(true){
-                std::cout << "Would you like to look at the other than visuals? [Y/n]:";
+                std::cout << "Would you like to look at the other than VISUALS? [Y/n]:";
                 std::cin >> answer;
                 if(answer == 'Y' || answer == 'n'){break;}
             }
 
             if(answer == 'Y'){ 
-                std::cout<< "\nAlright lets look at some more visuals :D \n\n";
+                std::cout<< "\nAlright lets look at some more VISUALS :D \n\n";
                 continue; 
             }else{
                 break; 
@@ -161,6 +163,7 @@ void visuals() {
     }
 }
 
+//Some games that you can play, these are not mine
 void games(){
     int input;
 
@@ -218,13 +221,13 @@ void games(){
             wait(NULL);
             char answer;
             while(true){
-                std::cout << "Would you like to look at the other than games? [Y/n]:";
+                std::cout << "Would you like to look at the other than GAMES? [Y/n]:";
                 std::cin >> answer;
                 if(answer == 'Y' || answer == 'n'){break;}
             }
             
             if(answer == 'Y'){ 
-                std::cout<< "\nAlright lets look at some more games :D \n\n";
+                std::cout<< "\nAlright lets look at some more GAMES :D \n\n";
                 continue; 
             }else{
                 break; 
@@ -235,6 +238,7 @@ void games(){
 
 }
 
+// Ciphers that I made
 void ciphers(){
     int input;
 
@@ -284,13 +288,13 @@ void ciphers(){
             wait(NULL);
             char answer;
             while(true){
-                std::cout << "Would you like to look at the other than Ciphers? [Y/n]:";
+                std::cout << "Would you like to look at the other than CIPHERS? [Y/n]:";
                 std::cin >> answer;
                 if(answer == 'Y' || answer == 'n'){break;}
             }
             
             if(answer == 'Y'){ 
-                std::cout<< "\nAlright let's look at some more Ciphers :D \n\n";
+                std::cout<< "\nAlright let's look at some more CIPHERS :D \n\n";
                 continue; 
             }else{
                 break; 
@@ -301,6 +305,7 @@ void ciphers(){
 
 }
 
+//Intro that explains what i am doing, is skippable 
 void intro(){
     char answer;
     
@@ -309,14 +314,13 @@ void intro(){
     type_chars("I wanted to put these skills to the test here\n"); sleep(1);
     type_chars("So here is what we are going to do. I am going to give you some cool things to work with :D\n"); sleep(1);
     
-    std::cout << "\nWould you like to know what I mean when refering to 'fork()' | 'exec()' | 'wait()' [Y/n]: ";
+    std::cout << "\nWould you like to know what I mean when refering to 'fork()' and 'exec()'? [Y/n]: ";
     std::cin >> answer; std::cout << '\n';
     
-    if(answer == 'Y'){ std::cout << "Well bascially..."; }
+    if(answer == 'Y'){ std::cout << ""; } // DO THIS 
     else{ type_chars("\tYea I was guessing that you wouldn't be interested but that's alright :(\n\n");}
 
 }
-
 
 void manager(){
     char answer;
@@ -360,7 +364,7 @@ void manager(){
             }
     
             while(true){
-                std::cout << "Would you like to look at main options again? [Y/n]:"; std::cin >> answer;
+                std::cout << "Would you like to look at MAIN MENU again? [Y/n]:"; std::cin >> answer;
                 std::cout << '\n';
     
                 if(answer == 'Y'){ break; }
