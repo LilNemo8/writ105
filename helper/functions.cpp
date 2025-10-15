@@ -1,5 +1,7 @@
 #include "functions.h"
 
+
+
 // Gives the illusion of typing each character
 void type_chars(const std::string& text, std::chrono::milliseconds per_char, bool newline_at_end) {
     for (char c : text) {
@@ -27,5 +29,21 @@ void loading(const std::string& msg, int time) {
         sleep(1);
         d = (d + 1) % (maxDots + 1); // cycles: 1→2→3→0→1→...
         x--;
+    }
+}
+
+int play_again(std::string category){
+    char answer;
+    while(true){
+        std::cout << "\nWould you like to look at the other than " << category << "? [Y/n]:";
+        std::cin >> answer;
+        if(answer == 'Y' || answer == 'n'){break;}
+    }
+
+    if(answer == 'Y'){ 
+        std::cout<< "\nAlright lets look at some more " << category << " :D \n\n";
+        return 1; //continue
+    }else{
+        return 0; //break
     }
 }

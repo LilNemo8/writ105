@@ -2,7 +2,7 @@
 
 bool timed = false;
 int  process_timer = 0;
-int  loading_timer = 0;
+int  loading_timer = 2 + rand() % 6;
 int  input = 0;
 
 int parent(pid_t& pid){
@@ -28,19 +28,20 @@ int parent(pid_t& pid){
     }
     
     wait(NULL);
-    char answer;
-    while(true){
-        std::cout << "Would you like to look at the other than VISUALS? [Y/n]:";
-        std::cin >> answer;
-        if(answer == 'Y' || answer == 'n'){break;}
-    }
+    return play_again("VISUALS");
+    // char answer;
+    // while(true){
+    //     std::cout << "\nWould you like to look at the other than VISUALS? [Y/n]:";
+    //     std::cin >> answer;
+    //     if(answer == 'Y' || answer == 'n'){break;}
+    // }
 
-    if(answer == 'Y'){ 
-        std::cout<< "\nAlright lets look at some more VISUALS :D \n\n";
-        return 1; //continue
-    }else{
-        return 0; //break
-    }
+    // if(answer == 'Y'){ 
+    //     std::cout<< "\nAlright lets look at some more VISUALS :D \n\n";
+    //     return 1; //continue
+    // }else{
+    //     return 0; //break
+    // }
 }
 
 void child(){
@@ -95,7 +96,7 @@ void visuals(){
 
         if(input == -1){
             std::cout << "Leaving Visuals\n\n";
-            exit(1);
+            return;
         }else if(input == 0){
             std::cout << "1. Gives a 'Matrix'-style display, where a rain of green characters streams down the screen\n";
             std::cout << "2. It is an aquarium/sea animation in ASCII art created using perl\n";
@@ -112,8 +113,6 @@ void visuals(){
             std::cin >> process_timer;
         }
         
-        loading_timer = 2 + rand() % 7;
-        
         pid_t pid = fork();
 
         if (pid == -1) {
@@ -124,14 +123,11 @@ void visuals(){
             child();
 
         } else {
-            if(parent(pid) == 0){ break; }
-            else{ continue; }
+            if(parent(pid)){ continue; }
+            else{ break; }
         }
         
     }
 }
 
 
-void donut(){
-    
-}

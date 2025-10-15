@@ -1,0 +1,3 @@
+/home/nemismagana/code/random/terminal-pong/build/CMakeFiles/pong.dir
+/home/nemismagana/code/random/terminal-pong/build/CMakeFiles/edit_cache.dir
+/home/nemismagana/code/random/terminal-pong/build/CMakeFiles/rebuild_cache.dir
