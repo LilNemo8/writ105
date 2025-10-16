@@ -1,0 +1,3 @@
+/home/nemismagana/code/writ105/games/pong/CMakeFiles/pong.dir
+/home/nemismagana/code/writ105/games/pong/CMakeFiles/edit_cache.dir
+/home/nemismagana/code/writ105/games/pong/CMakeFiles/rebuild_cache.dir

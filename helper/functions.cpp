@@ -30,6 +30,7 @@ void loading(const std::string& msg, int time) {
         d = (d + 1) % (maxDots + 1); // cycles: 1→2→3→0→1→...
         x--;
     }
+    std::cout<<'\n';
 }
 
 int play_again(std::string category){
@@ -47,3 +48,8 @@ int play_again(std::string category){
         return 0; //break
     }
 }
+
+
+void clear_terminal(){
+    std::cout << "\033[2J\033[1;1H"; 
+};

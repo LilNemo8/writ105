@@ -3,11 +3,11 @@
 
 #include "../helper/functions.h"
 
-
+#include <termios.h>  // terminal input
 
 void visuals();
 void child();
-int parent(pid_t& pid);
+void parent(pid_t& pid);
 
 
 

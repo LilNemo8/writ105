@@ -16,4 +16,6 @@ void loading(const std::string& msg, int time);
 
 int play_again(std::string category);
 
+void clear_terminal();
+
 #endif

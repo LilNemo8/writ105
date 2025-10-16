@@ -6,7 +6,7 @@ void child_games(int input){
     switch (input) {
         case 1:
             loading("PONG", loading_timer); 
-            execlp("pong/build/pong", "pong", (char*)NULL);
+            execlp("pong/pong", "pong", (char*)NULL);
             break;
         case 2:
             loading("TETRIS", loading_timer); 
@@ -65,7 +65,7 @@ void games_intro(){
 void games(){
     games_intro();
 
-    
+
     int input = 0;
 
     while(true){
