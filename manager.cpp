@@ -52,15 +52,7 @@ void main_menu(int input){
             else {type_chars("That isn't an option\n\n"); continue;}
     
             std::cout << "MAIN MENU\n\n";
-    
-            // while(true){
-            //     std::cout << "Would you like to look at MAIN MENU again? [Y/n]:"; std::cin >> answer;
-            //     std::cout << '\n';
-    
-            //     if(answer == 'Y'){ break; }
-            //     if(answer == 'n'){ return; }
-    
-            // }
+
         }
         
     }
@@ -70,7 +62,7 @@ void main_menu(int input){
 
 int main() {
     clear_terminal();
-    
+
     int input = 0;
 
     // intro(input);
