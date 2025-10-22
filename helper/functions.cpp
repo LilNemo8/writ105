@@ -42,7 +42,7 @@ int play_again(std::string category){
     }
 
     if(answer == 'Y'){ 
-        std::cout<< "\nAlright lets look at some more " << category << " :D \n\n";
+        std::cout<< "\n\nAlright lets look at some more " << category << " :D \n\n";
         return 1; //continue
     }else{
         return 0; //break
