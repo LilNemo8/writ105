@@ -46,13 +46,12 @@ void main_menu(int input){
             std::cout << "Input: "; std::cin >> input;
     
             if(input == 1){  visuals(); }
-            else if(input == 2){  games();   }
-            else if(input == 3){  ciphers(); }
+            else if(input == 2){ games(); }
+            else if(input == 3){ ciphers(); }
             else if(input == -1){ break; }
             else {type_chars("That isn't an option\n\n"); continue;}
     
             std::cout << "MAIN MENU\n\n";
-
         }
         
     }

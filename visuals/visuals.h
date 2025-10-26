@@ -4,6 +4,8 @@
 #include "../helper/functions.h"
 
 #include <termios.h>  // terminal input
+#include <fcntl.h>
+#include <errno.h>
 
 void visuals();
 void child();

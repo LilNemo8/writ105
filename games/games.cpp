@@ -6,11 +6,11 @@ void child_games(int input){
     switch (input) {
         case 1:
             loading("PONG", loading_timer); 
-            execlp("pong/pong", "pong", (char*)NULL);
+            execlp("games/pong/pong", "pong", (char*)NULL);
             break;
         case 2:
             loading("TETRIS", loading_timer); 
-            execlp("tetris/tetris", "tetris", (char*)NULL);
+            execlp("games/tetris/tetris", "tetris", (char*)NULL);
             break;
         case 3:
             loading("SNAKE", loading_timer); 
@@ -57,6 +57,12 @@ void child_games(int input){
 }
 
 void games_intro(){
+    clear_terminal();
+
+    std::cout << "--------------------------------------------------\n";
+    std::cout << "              WELCOME TO GAMES\n";
+    std::cout << "--------------------------------------------------\n\n"; 
+    sleep(1);
     type_chars("Alright, here are some of the games that you can play\n\n");
     type_chars("A sidenote, these games are not mine, you can find their original creators if you look at the readme of each game's folder. :D\n\n");
 
