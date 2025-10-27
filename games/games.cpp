@@ -4,56 +4,21 @@ void child_games(int input){
     int loading_timer = 2 + rand() % 6;
         
     switch (input) {
-        case 1:
-            loading("PONG", loading_timer); 
-            execlp("games/pong/pong", "pong", (char*)NULL);
-            break;
-        case 2:
-            loading("TETRIS", loading_timer); 
-            execlp("games/tetris/tetris", "tetris", (char*)NULL);
-            break;
-        case 3:
-            loading("SNAKE", loading_timer); 
-            execlp("nsnake", "nsnake", (char*)NULL);
-            break;
-        case 4:
-            loading("DOOM", loading_timer); 
-            execlp("chocolate-doom", "chocolate-doom", (char*)NULL);
-            break;
-        case 5:
-            loading("SPACE INVADERS", loading_timer); 
-            execlp("ninvaders", "ninvaders", (char*)NULL);
-            break;
-        case 6:
-            loading("PACMAN", loading_timer); 
-            execlp("pacman4console", "pacman4console", (char*)NULL);
-            break;
-        case 7:
-            loading("GREED", loading_timer); 
-            execlp("greed", "greed", (char*)NULL);
-            break;
-        case 8:
-            loading("2048", loading_timer); 
-            execlp("2048", "2048", (char*)NULL);
-            break;
-        case 9:
-            loading("SUDOKU", loading_timer); 
-            execlp("nudoku", "nudoku", (char*)NULL);
-            break;
-        case 10:
-            loading("HANGMAN", loading_timer); 
-            execlp("hangman", "hangman", (char*)NULL);
-            break;
-        default:
-            std::cerr << "Invalid choice.\n";
-            _exit(1);
+        case 1:  loading("PONG", loading_timer);            execlp("games/pong/pong", "pong", (char*)NULL);          break;
+        case 2:  loading("TETRIS", loading_timer);          execlp("games/tetris/tetris", "tetris", (char*)NULL);    break;
+        case 3:  loading("SNAKE", loading_timer);           execlp("nsnake", "nsnake", (char*)NULL);                 break;
+        case 4:  loading("DOOM", loading_timer);            execlp("chocolate-doom", "chocolate-doom", (char*)NULL); break;
+        case 5:  loading("SPACE INVADERS", loading_timer);  execlp("ninvaders", "ninvaders", (char*)NULL);           break;
+        case 6:  loading("PACMAN", loading_timer);          execlp("pacman4console", "pacman4console", (char*)NULL); break;
+        case 7:  loading("GREED", loading_timer);           execlp("greed", "greed", (char*)NULL);                   break;
+        case 8:  loading("2048", loading_timer);            execlp("2048", "2048", (char*)NULL);                     break;
+        case 9:  loading("SUDOKU", loading_timer);          execlp("nudoku", "nudoku", (char*)NULL);                 break;
+        case 10: loading("HANGMAN", loading_timer);         execlp("hangman", "hangman", (char*)NULL);               break;
+        default: std::cerr << "Invalid choice.\n"; _exit(1);
     }
-    
-    
     // If execlp returns, it failed:
     std::perror("exec error");
     _exit(1);
-    
 }
 
 void games_intro(){
@@ -92,6 +57,7 @@ void games(){
             child_games(input);
         } else {
             wait(NULL);
+            clear_terminal();
             if(play_again("GAMES")){ continue; }
             else{ break; }
 

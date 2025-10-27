@@ -1,7 +1,7 @@
 # ====== config ======
 CXX      := g++
 CXXFLAGS := -std=c++17 -O2 -Wall -Wextra -pedantic -MMD -MP
-INCLUDES := -I. -Ihelper -Iciphers -Ivisuals -Igames
+INCLUDES := -I. -Ihelper -Iciphers -Ivisuals -Igames -Ideepseek
 LDFLAGS  :=
 LDLIBS   :=
 
@@ -16,7 +16,8 @@ LIB_ALL  := \
   $(wildcard visuals/*.cpp) \
   $(wildcard visuals/*/*.cpp) \
   $(wildcard games/*.cpp) \
-  $(wildcard games/*/*.cpp)
+  $(wildcard games/*/*.cpp) \
+  $(wildcard deepseek/*.cpp) \
 
 # Exclude donut.cpp (standalone)
 LIB_SRCS := $(filter-out visuals/donut/donut.cpp,$(LIB_ALL))

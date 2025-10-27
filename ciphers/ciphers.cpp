@@ -2,6 +2,8 @@
 
 
 void ciphers(){
+    clear_terminal();
+
     int input;
 
 
@@ -49,6 +51,7 @@ void ciphers(){
         }
 
     }
+    clear_terminal();
 
 };
 
@@ -56,6 +59,7 @@ void ciphers(){
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
 
+//CAESAR
 
 void caesar(){
     int input, displacement;
@@ -162,6 +166,7 @@ std::string cipher(char procedure, unsigned int displacement, std::string& input
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
 
+//SCYTALE
 
 void scytale(){
     int input;
@@ -295,6 +300,7 @@ void encryption(std::string str, int row, int column, char operation){
 }
 
 void decryption(std::string str, int row, int column, char operation){
+
     //creates a grid
     char** grid = createGrid(str, row, column, operation);
     
@@ -305,3 +311,8 @@ void decryption(std::string str, int row, int column, char operation){
     std::cout<<std::endl;
 
 }
+
+//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------
+

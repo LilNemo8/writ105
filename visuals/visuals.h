@@ -3,13 +3,10 @@
 
 #include "../helper/functions.h"
 
-#include <termios.h>  // terminal input
-#include <fcntl.h>
-#include <errno.h>
 
 void visuals();
-void child();
-void parent(pid_t& pid);
+void child_v();
+void parent_v(pid_t& pid);
 
 
 

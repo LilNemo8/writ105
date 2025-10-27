@@ -53,3 +53,45 @@ int play_again(std::string category){
 void clear_terminal(){
     std::cout << "\033[2J\033[1;1H"; 
 };
+
+
+
+char getch() {
+    static bool inited = false;
+    static struct termios saved;     // original settings
+    struct termios raw;
+
+    if (!inited) {
+        if (tcgetattr(STDIN_FILENO, &saved) < 0) perror("tcgetattr(saved)");
+        inited = true;
+    }
+
+    // Ensure blocking reads on STDIN
+    int fl = fcntl(STDIN_FILENO, F_GETFL);
+    if (fl != -1 && (fl & O_NONBLOCK)) fcntl(STDIN_FILENO, F_SETFL, fl & ~O_NONBLOCK);
+
+    raw = saved;
+    raw.c_lflag &= ~(ICANON | ECHO);
+    raw.c_cc[VMIN]  = 1;
+    raw.c_cc[VTIME] = 0;
+    if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0) perror("tcsetattr(raw)");
+
+    char ch;
+    for (;;) {
+        ssize_t n = read(STDIN_FILENO, &ch, 1);
+        if (n == 1) break;
+        if (n < 0 && (errno == EINTR || errno == EAGAIN)) continue;
+        perror("read"); break;
+    }
+
+    // Restore original terminal settings
+    if (tcsetattr(STDIN_FILENO, TCSADRAIN, &saved) < 0) perror("tcsetattr(saved)");
+    return ch;
+}
+
+void make_stdio_blocking() {
+    for (int fd = 0; fd <= 2; ++fd) {
+        int fl = fcntl(fd, F_GETFL);
+        if (fl != -1 && (fl & O_NONBLOCK)) fcntl(fd, F_SETFL, fl & ~O_NONBLOCK);
+    }
+}

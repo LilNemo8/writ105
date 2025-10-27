@@ -3,70 +3,30 @@
 int  load_timer = 2 + rand() % 6;
 int  input = 0;
 
-static void make_stdio_blocking() {
-    for (int fd = 0; fd <= 2; ++fd) {
-        int fl = fcntl(fd, F_GETFL);
-        if (fl != -1 && (fl & O_NONBLOCK)) fcntl(fd, F_SETFL, fl & ~O_NONBLOCK);
-    }
-}
 
-char getch() {
-    static bool inited = false;
-    static struct termios saved;     // original settings
-    struct termios raw;
 
-    if (!inited) {
-        if (tcgetattr(STDIN_FILENO, &saved) < 0) perror("tcgetattr(saved)");
-        inited = true;
-    }
-
-    // Ensure blocking reads on STDIN
-    int fl = fcntl(STDIN_FILENO, F_GETFL);
-    if (fl != -1 && (fl & O_NONBLOCK)) fcntl(STDIN_FILENO, F_SETFL, fl & ~O_NONBLOCK);
-
-    raw = saved;
-    raw.c_lflag &= ~(ICANON | ECHO);
-    raw.c_cc[VMIN]  = 1;
-    raw.c_cc[VTIME] = 0;
-    if (tcsetattr(STDIN_FILENO, TCSANOW, &raw) < 0) perror("tcsetattr(raw)");
-
-    char ch;
-    for (;;) {
-        ssize_t n = read(STDIN_FILENO, &ch, 1);
-        if (n == 1) break;
-        if (n < 0 && (errno == EINTR || errno == EAGAIN)) continue;
-        perror("read"); break;
-    }
-
-    // Restore original terminal settings
-    if (tcsetattr(STDIN_FILENO, TCSADRAIN, &saved) < 0) perror("tcsetattr(saved)");
-    return ch;
-}
-
-void parent(pid_t& pid){
+void parent_v(pid_t& pid){
     // int status = 0;
     while (true) {
         char key = getch();
         if (key == 'q' || key == 'Q') {
-            // std::cout << "\nKilling child process...\n";
             kill(pid, SIGTERM);  // or SIGKILL for force
             waitpid(pid, nullptr, 0);
-            // std::cout << "Child terminated.\n";
             break;
         }
     }      
 }
 
-void child(){
+void child_v(){
     make_stdio_blocking();
 
     switch (input) {
-        case 1: loading("CMATRIX", load_timer);          execlp("cmatrix", "cmatrix", (char*)NULL);            break;
-        case 2: loading("AQUARIUM", load_timer);         execlp("asciiquarium", "asciiquarium", (char*)NULL);  break;
-        case 3: loading("HOLLYWOOD", load_timer);        execlp("hollywood", "hollywood", (char*)NULL);        break;
-        case 4: loading("DONUT", load_timer);            execlp("visuals/donut/donut", "donut", (char*)NULL);  break;
-        case 5: loading("CUBE", load_timer);             execlp("visuals/cube/cube", "cube", (char*)NULL);     break;
-        case 6:  loading("STEAM LOCOMOTIVE", load_timer);  execlp("sl", "sl", (char*)NULL);                      break;
+        case 1: loading("CMATRIX", load_timer);             execlp("cmatrix", "cmatrix", (char*)NULL);            break;
+        case 2: loading("AQUARIUM", load_timer);            execlp("asciiquarium", "asciiquarium", (char*)NULL);  break;
+        case 3: loading("HOLLYWOOD", load_timer);           execlp("hollywood", "hollywood", (char*)NULL);        break;
+        case 4: loading("DONUT", load_timer);               execlp("visuals/donut/donut", "donut", (char*)NULL);  break;
+        case 5: loading("CUBE", load_timer);                execlp("visuals/cube/cube", "cube", (char*)NULL);     break;
+        case 6:  loading("STEAM LOCOMOTIVE", load_timer);   execlp("sl", "sl", (char*)NULL);                      break;
         default: std::cerr << "Invalid choice.\n"; _exit(1);
     }
     // If we got here, exec failed.
@@ -113,10 +73,10 @@ void visuals(){
             exit(1);
 
         } else if (pid == 0) {
-            child();
+            child_v();
 
         } else {
-            parent(pid);
+            parent_v(pid);
             wait(NULL);
             clear_terminal();
             if(play_again("VISUALS")){ sleep(1); continue; }
