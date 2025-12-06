@@ -28,8 +28,13 @@ void games_intro(){
     std::cout << "              WELCOME TO GAMES\n";
     std::cout << "--------------------------------------------------\n\n"; 
     sleep(1);
-    type_chars("Alright, here are some of the games that you can play\n\n");
-    type_chars("A sidenote, these games are not mine, you can find their original creators if you look at the readme of each game's folder. :D\n\n");
+
+    if(mathew->exists()){
+        mathew->games_dialogue(1);
+    }else{
+        type_chars("Alright, here are some of the games that you can play\n\n");
+        type_chars("A sidenote, these games are not mine, you can find their original creators if you look at the readme of each game's folder. :D\n\n");
+    }
 
 }
 
@@ -47,7 +52,11 @@ void games(){
         std::cout << "Input: "; std::cin >> input;
 
 
-        if(input == -1){ std::cout << "Leaving Games\n\n"; return;}        
+        if(input == -1){ 
+            if(mathew->exists()){ mathew->games_dialogue(2); }
+            std::cout << "Leaving Games\n\n"; sleep(2);
+            break;
+        }        
     
         pid_t pid = fork();
         if (pid == -1) {
@@ -63,5 +72,7 @@ void games(){
 
         }
     }
+
+    clear_terminal();
 
 }

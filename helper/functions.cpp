@@ -1,6 +1,6 @@
 #include "functions.h"
 
-
+mat* mathew = nullptr;
 
 // Gives the illusion of typing each character
 void type_chars(const std::string& text, std::chrono::milliseconds per_char, bool newline_at_end) {
@@ -95,3 +95,24 @@ void make_stdio_blocking() {
         if (fl != -1 && (fl & O_NONBLOCK)) fcntl(fd, F_SETFL, fl & ~O_NONBLOCK);
     }
 }
+
+std::string setColor(std::string color) {
+    if (color == "red") {
+        return "\033[31m";
+    } else if (color == "green") {
+        return "\033[32m";
+    } else if (color == "yellow") {
+        return "\033[33m";
+    } else if (color == "blue") {
+        return "\033[34m";
+    } else if (color == "magenta") {
+        return "\033[35m";
+    } else if (color == "cyan") {
+        return "\033[36m";
+    } else if (color == "white") {
+        return "\033[37m";
+    }
+    // Default to white if no valid color is chosen
+    return "\033[37m";
+}
+

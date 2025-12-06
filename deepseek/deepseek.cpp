@@ -16,7 +16,7 @@ void child_ds() {
     if (tty > STDERR_FILENO) close(tty);
 
     // IMPORTANT: do NOT freopen/stdout to files here; that breaks interactivity
-    execlp("ollama", "ollama", "run", "deepseek-r1:8b", (char *)NULL);
+    execlp("ollama", "ollama", "run", "deepseek-r1:1.5b", (char *)NULL);
     perror("execlp");
     _exit(127);
 }

@@ -11,6 +11,7 @@ MAIN     := manager.cpp
 # ====== sources ======
 # Collect all .cpp files from helper, ciphers, visuals, games (and one level deeper)
 LIB_ALL  := \
+  $(wildcard mat/*.cpp) \
   $(wildcard helper/*.cpp) \
   $(wildcard ciphers/*.cpp) \
   $(wildcard visuals/*.cpp) \

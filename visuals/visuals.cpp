@@ -42,7 +42,11 @@ void visuals_intro(){
     std::cout << "--------------------------------------------------\n\n"; 
     sleep(1);
     
-    type_chars("Here are some choices that you can see (input 0 for more info)\n");
+    if(mathew->exists()){
+        mathew->visuals_dialogue(1);
+    }else{
+        type_chars("Here are some choices that you can see\n");
+    }
 }
 
 void visuals(){
@@ -56,14 +60,14 @@ void visuals(){
         std::cout << "Input: "; std::cin >> input;
 
         if(input == -1){
+            if(mathew->exists()) mathew->visuals_dialogue(3);
+
             std::cout << "Leaving Visuals\n\n";
+            sleep(1); 
             break;
-        }else if(input == 0){
-            std::cout << "1. Gives a 'Matrix'-style display, where a rain of green characters streams down the screen\n";
-            std::cout << "2. It is an aquarium/sea animation in ASCII art created using perl\n";
-            std::cout << "3. Creates a visually engaging, hacker-movie-like terminal interface with multiple windows and animated text\n";
-            std::cout << "4. shows you an animated steam train\n\n"; 
-            std::cout << "Input: "; std::cin >> input;
+        }else if(input == 0 && mathew->exists()){
+            mathew->visuals_dialogue(2);
+            continue;
         }
         
         pid_t pid = fork();
@@ -79,8 +83,6 @@ void visuals(){
             parent_v(pid);
             wait(NULL);
             clear_terminal();
-            if(play_again("VISUALS")){ sleep(1); continue; }
-            else{ break; }
         }
         
     }
