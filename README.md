@@ -10,6 +10,11 @@ _The following project was created for writ105CD_
 ```
 git clone https://github.com/LilNemo8/writ105.git
 ```
+**No linux-based system**
+- If you do not have anything linux based on your device, I beleive you can click the bright blue button (sometimes green) that says _**code**_
+- Then click _**codespaces**_, this will create your own codespace whereby you can run the following instructions
+
+**Dependencies and Running the Code**
 - This simulation has a lot of dependencies, so I wrote a bash script that will checks and download them all
 - In the linux terminal type *chmod +x depend.sh* and then *. depend.sh*
 ```
